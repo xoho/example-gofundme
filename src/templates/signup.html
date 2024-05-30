@@ -1,0 +1,41 @@
+{% extends "base_page.html" %}
+
+{% block content %}
+<style>
+    .signup-form {
+        margin:auto;
+        width: 300px;
+    }
+    .signup-field {
+        width:100%;
+        border-radius: 20px;
+        border-width: 0.5px;
+        height:2em;
+    }
+</style>
+<div class="errors">
+    {% for error in errors %}
+    <span class="error">{{error}}</span>
+    {%endfor%}
+
+</div>
+<form method="POST" action="">
+    {{ form.csrf_token }}
+    <div class="signup-form">
+        <p>{{ form.first_name.label}}</p>
+        <p>{{ form.first_name(class="signup-field") }}</p>
+        <p>{{ form.last_name.label}}</p>
+        <p>{{ form.last_name(class="signup-field") }}</p>
+        <p>{{ form.email.label}}</p>
+        <p>{{ form.email(class="signup-field") }}</p>
+        <p>{{ form.password.label}}</p>
+        <p>{{ form.password(class="signup-field", autocomplete="off") }}</p>
+        
+
+        <p>{{ form.submit(class="submit-button")}}</p>
+    </div>
+
+</form>
+
+
+{% endblock %}

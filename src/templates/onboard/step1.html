@@ -1,0 +1,63 @@
+{% extends "onboard/base.html" %}
+{% block content %}
+    <div class="container">
+        <div class="step-container">
+            <div class="helper">
+                <div class="major">
+                    Let's begin your funding quest
+                </div>
+                <div class="minor">
+                    First, some basics
+                </div>
+
+            </div>
+            <div class="selectors">
+                <form method="POST" action="#">
+                    {{ form.csrf_token }}
+    
+                    <div class="selector">
+                        <div class="title">Where are you located?</div>
+                            <div class="dropdown-container">
+                                {{ form.country.label }}
+                                {{ form.country() }}
+                            </div>
+                            <br>
+                    
+                    </div>
+                    <div class="selector">
+                        <div class="title">What best describes your fundraising?</div>
+                        
+                        <div class="tag-selector">
+                            {% for value, label in form.category.choices %}
+                            <input type="radio" id="{{ value }}" name="category" value={{value}}>
+                            <label for="{{ value }}">{{ label }}</label>
+                            {% endfor %}
+                        </div>
+                        
+    
+                    </div>
+
+                    <button type="submit" id="continue-button" class="submit-button" style="display:none;">Continue</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        const radioButtons = document.querySelectorAll('input[type="radio"]');
+        const submitButton = document.getElementById('continue-button');
+
+        radioButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            submitButton.style.display = 'block';
+            if (this.checked) {
+                radioButtons.forEach(otherButton => {
+                    if (otherButton !== this) {
+                    otherButton.checked = false;
+                    }
+                });
+            }
+        });
+        });
+
+    </script>
+{% endblock %}

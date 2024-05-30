@@ -1,0 +1,37 @@
+{% extends "onboard/base.html" %}
+{% block content %}
+    <div class="container">
+        <div class="step-container">
+            <div class="helper">
+                <div class="major">
+                    How much would you like to raise?
+                </div>
+                <div class="minor">
+                    It's completely expected to need funds beyond your starting goal. You can always change your goal as you go.
+                </div>
+
+            </div>
+            <div class="selectors">
+                <form method="POST" action="#">
+                    {{ form.csrf_token }}
+    
+                    <div class="selector">
+                        <div class="title">Your starting goal</div>
+                        <div class="amount">
+                            <p>{{form.goal.label}}:&nbsp;<span style="font-size: x-large;">{{currency_symbol}}</span> {{form.goal()}} ({{currency_code}})</p>
+                        </div>
+                        
+                      
+    
+                    </div>
+
+                    <button type="submit" id="continue-button" class="submit-button">Continue</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+
+
+    </script>
+{% endblock %}

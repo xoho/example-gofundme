@@ -1,0 +1,65 @@
+{% extends "onboard/base.html" %}
+{% block content %}
+    <style>
+        #title {
+            width: 90%;
+            padding:10px;
+        }
+        #description{
+            width: 90%;
+            min-height: 20em;
+            padding:10px;
+        }
+    </style>
+    <div class="container">
+        <div class="step-container">
+            <div class="helper">
+                <div class="major">
+                    Tell us your story
+                </div>
+                <div class="minor">
+                    Be concise and descriptive of your story and goals
+                </div>
+
+            </div>
+            <div class="selectors">
+                <form method="POST" action="#" enctype="multipart/form-data">
+                    {{ form.csrf_token }}
+    
+                    <div class="selector">
+                        <p>{{form.title.label}}</p>
+                        <p>{{form.title(class='text-entry', placeholder="Your title should describe what your are asking for")}}</p>
+
+                        <p>{{form.description.label}}</p>
+                        <p>{{form.description(class='text-entry', placeholder="Write your personal story in 3 or 4 paragraphs.")}}</p>
+                        
+                        <p>Add image - campaigns with images are more likely to receive more funding.</p>
+                        <p><input id="file" name="file" type="file" accept="image/*"></p>
+                    </div>
+
+                    <button type="submit" id="continue-button" class="submit-button" style="display:none;">Continue</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        const submitButton = document.getElementById('continue-button');
+        const title = document.getElementById('title');
+        const description = document.getElementById('description');
+
+        function checkInput() {
+            if (title.value.trim() !== '' && description.value.trim() !== '') {
+                submitButton.style.display = 'block'; // Show the button
+            } else {
+                submitButton.style.display = 'none'; // Hide the button
+            }
+        }
+
+        title.addEventListener('input', checkInput);
+        description.addEventListener('input', checkInput);
+
+        checkInput();
+        
+
+    </script>
+{% endblock %}

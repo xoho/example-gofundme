@@ -1,0 +1,102 @@
+[
+    {
+        "mood": "negative",
+        "name": "Animals",
+        "id": 0
+    },
+    {
+        "mood": "positive",
+        "name": "Business",
+        "id": 1
+    },
+    {
+        "mood": "positive",
+        "name": "Community",
+        "id": 2
+    },
+    {
+        "mood": "positive",
+        "name": "Creative",
+        "id": 3
+    },
+    {
+        "mood": "positive",
+        "name": "Education",
+        "id": 4
+    },
+    {
+        "mood": "negative",
+        "name": "Emergencies",
+        "id": 5
+    },
+    {
+        "mood": "positive",
+        "name": "Environment",
+        "id": 6
+    },
+    {
+        "mood": "positive",
+        "name": "Events",
+        "id": 7
+    },
+    {
+        "mood": "positive",
+        "name": "Faith",
+        "id": 8
+    },
+    {
+        "mood": "positive",
+        "name": "Family",
+        "id": 9
+    },
+    {
+        "mood": "negative",
+        "name": "Funeral & Memorial",
+        "id": 10
+    },
+    {
+        "mood": "negative",
+        "name": "Medical",
+        "id": 11
+    },
+    {
+        "mood": "negative",
+        "name": "Monthly Bills",
+        "id": 12
+    },
+    {
+        "mood": "positive",
+        "name": "Newlyweds",
+        "id": 13
+    },
+    {
+        "mood": "positive",
+        "name": "Other",
+        "id": 14
+    },
+    {
+        "mood": "positive",
+        "name": "Sports",
+        "id": 15
+    },
+    {
+        "mood": "positive",
+        "name": "Travel",
+        "id": 16
+    },
+    {
+        "mood": "positive",
+        "name": "Ukraine Relief",
+        "id": 17
+    },
+    {
+        "mood": "positive",
+        "name": "Volunteer",
+        "id": 18
+    },
+    {
+        "mood": "positive",
+        "name": "Wishes",
+        "id": 19
+    }
+]

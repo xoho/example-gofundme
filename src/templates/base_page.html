@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block header %}
+    <style>
+        .nav-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        }
+
+        .logo {
+        flex: 0 0 auto;
+        }
+
+        .nav {
+        display: flex;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        }
+
+        .nav-item {
+        margin-left: 10px;
+        }
+
+        li a{
+            font-size: smaller;
+            /* padding-left:5px; */
+        }
+
+    </style>
+    <div class="nav-container">
+        <div class="logo">
+            <a href="{{url_for('index')}}"><img src='{{url_for("show_asset_image", filename="text8292-150.png")}}'/></a>
+        </div>
+        <nav>
+            <ul class="nav">
+                <li><a href="{%if session.user_id%}{{url_for('my_campaigns')}}{%else%}{{url_for('index')}}{%endif%}" class="nav-item">Home</a></li>
+                <li><a class="nav-item" href="{{url_for('search')}}">Search</a></li>
+                {% if session.user_id %}
+                <li><a href="{{url_for('logout')}}" class="nav-item">Logout</a></li>
+                {%if session.user_first_name%}<li class="nav-item"><a href="#">{{session.user_first_name}}</a></li>{%endif%}
+                {% else %}
+                <li><a href="{{url_for('login')}}" class="nav-item">Login</a></li>
+                {%endif%}
+            </ul>
+        </nav>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        
+    </div>
+    <script>
+        
+    </script>
+{% endblock %}

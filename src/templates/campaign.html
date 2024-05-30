@@ -1,0 +1,368 @@
+{% extends "base_page.html" %}
+
+{% block content %}
+    <style>
+        .container{
+            padding: 2em;
+        }
+        .campaign-container{
+            display: flex;
+            flex-wrap: wrap;
+            margin: auto;
+            max-width: 960px;
+
+        }
+        .campaign-details{
+            width: 700px;
+            order: 1;
+            display: flex;
+            flex-wrap: wrap;
+
+        }
+        .campaign-title{
+            width:100%;
+            order: 1;
+        }
+        .campaign-image{
+            width:650px;
+            order: 2;
+        }
+        .campaign-action{
+            width: 25%;
+            order: 2;
+            position: sticky;
+            top: 0;
+            margin-top: 2em;
+            background-color: white;
+        }
+        .campaign-description{
+            width: 650px;
+            order: 4;
+            /* z-index: 999; */
+        }
+
+        .campaign-quickstats{
+            width: 650px;
+            order: 3;
+            margin-top: 2em;
+            margin-bottom: 2em;
+            border-top: 1px solid #c8c8c8;
+            border-bottom: 1px solid #c8c8c8;
+            height: 3.5em;
+        }
+        .campaign-words-of-support{
+            order: 5;
+            width: 650px;
+            /* z-index: 999; */
+
+        }
+
+        
+        /* Responsive Styles */
+
+        .progress-bar {
+            background-color: rgb(0,128,0,.2);
+            height: 2px;
+            width: 300px;
+            border-radius: 3px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .progress {
+            background-color: green;
+            height: 100%;
+            width: {{progress}}%;
+            border-radius: 3px;
+        }
+
+        .donation-count {
+            font-size: smaller;
+            color: gray;
+            
+        }
+
+        .contribution-postfix{
+            color: gray;
+            padding-left:5px;
+        }
+        .contribution-postfix::before {
+            content: "\2022"; /* Unicode character for bullet (•) */
+            margin-right: 5px; 
+        }
+
+        .contributor-name{
+            margin-top: 5px
+        }
+        .contributor-name::before{
+            content: "🧑‍🤝‍🧑"; /* helping hands */
+            margin-right: 5px; 
+
+        }
+
+        .contributor-top-name::before{
+            content: "🌟";
+            margin-right: 5px;
+        }
+
+        .contributor-latest-name::before{
+            content: "🕐";
+            margin-right: 5px;
+        }
+
+        .contributor-first-name::before{
+            content: "🥇";
+            margin-right: 5px;
+        }
+
+        .contribution-detail{
+            margin-left:2em;
+            margin-top: -10px;
+            display: flex;
+        }
+        .contribution-message{
+            margin-left:2em;
+            margin-top: -10px;
+
+        }
+
+        .contribution-container p{
+            font-size:small;
+        }
+
+        .popupDiv {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            max-height: 300px; /* Set a maximum height for the div */
+            padding-left: 20px;
+            padding-right: 20px;
+            background-color: white;
+            border-radius: 5px;
+            overflow: auto; /* Enable scrolling when content overflows */
+            z-index: 999;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Add drop shadow effect */
+
+        }
+        .popupHeader {
+            position: sticky;
+            top: 0;
+            background-color: white;
+            padding-bottom: 10px;
+        }
+
+        .popupTitle {
+            margin: 0;
+            /* padding: 10px; */
+        }
+
+        .closeButton {
+            float: right;
+            padding: 5px;
+            cursor: pointer;
+            margin-top: -35px;
+        }
+
+        .stickyButton {
+            position: sticky;
+            bottom: 0;
+            padding: 10px;
+            text-align: center;
+            width:100%;
+        }   
+
+        @media only screen and (max-width: 1200px) {
+            .container{
+                padding: 2em;
+            }
+        }
+
+        @media only screen and (max-width: 768px) {
+            .container{
+                max-width: 768px;
+            }
+            .campaign-details{
+                width: 100%;
+                order: 1;
+
+            }
+            .campaign-action{
+                width: 100%;
+                order: 2;
+                position: relative;
+
+
+            }
+            .campaign-description{
+                width: 100%;
+                order: 3;
+            } 
+            .campaign-title{
+                width:100%;
+                order: 2;
+            }
+            .campaign-image{
+                width:100%;
+                order: 1;
+            }
+            .campaign-image img{
+                width: 100%;
+            }
+        }
+
+        @media only screen and (max-width: 576px) {
+
+        }
+
+        @media only screen and (max-width: 350px) {
+
+        }
+
+        
+
+    </style>
+
+    <div class="container">
+        <div class="campaign-container">
+            <div class="campaign-details">
+                <div class="campaign-title">
+                    <span>{{campaign.title}}</span>
+                </div>
+                <div class="campaign-image">
+                    <img  src="{{url_for('get_campaign_image', campaign_id=campaign.id)}}"/>
+                </div>
+                
+            </div>
+            <div class="campaign-quickstats">
+                <p>Created {{campaign.created|time_since}} 🏷 {{category_name}}</p>
+            </div>
+            <div class="campaign-description">
+                <p>{{campaign.description|replace('\r\n', '<br>')|replace('\n', '<br>')|safe}}</p>
+            </div>
+            <div class="campaign-action">
+                <div>
+                    <span style="font-weight: bold; font-size: larger;">{{currency_symbol}} </span><span style="font-weight: bold; font-size: larger;">{{campaign.amount_reached|separate_number}}</span><span> raised of {{currency_symbol}} {{campaign.goal|separate_number}}</span>
+                    
+                </div>
+                <div class="progress-bar">
+                    <div class="progress"></div>
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <span class="donation-count">{{campaign.contribution_count}} donation{%if campaign.contribution_count!=1%}s{%endif%}</span>
+                </div>
+                <div id="share-box" class="popupDiv">
+                    <div class="popupHeader">
+                        <h2 class="popupTitle">Sharing is caring</h2>
+                    </div>
+                    <div>
+                        <span>Copy to your favorite platforms to let the world know!</span>
+                        <input type="text" id="link-text" value="{{request.url}}" style="width:100%;margin-left:-10px"/>
+                    </div>
+                    
+                    <button type="submit" id="copy-link-button" class="submit-button" style="margin-top:10px;width:100%;">Copy</button>
+                </div>
+                <div>
+                    <button type="submit" id="share-button" class="power-button">Share</button>
+                    <button type="submit" onclick="openDonation()" class="power-button">Donate</button>
+                </div>
+                
+                <div class="contribution-summary">
+                    {% if campaign.contributions|length > 1 %}
+                    {%if top_contribution %}
+                    <div>
+                        <p class="contributor-name contributor-top-name">{{top_contribution.name}}</p>
+                        <p class="contribution-detail">{{currency_symbol}}{{top_contribution.amount}}<span class="contribution-postfix">Top donation</span></p>
+                    </div>
+                    {%endif%}
+                    {%if last_contribution %}
+                    <div>
+                        <p class="contributor-name contributor-latest-name">{{last_contribution.name}}</p>
+                        <p class="contribution-detail">{{currency_symbol}}{{last_contribution.amount}}<span class="contribution-postfix">Recent donation</span></p>
+                    </div>
+                    {%endif%}
+                    {%if first_contribution %}
+                    <div>
+                        <p class="contributor-name contributor-first-name">{{first_contribution.name}}</p>
+                        <p class="contribution-detail">{{currency_symbol}}{{first_contribution.amount}}<span class="contribution-postfix">First donation</span></p>
+                    </div>
+                    {%endif%}
+                    {%endif%}
+                    {% if campaign.contributions %}
+                    <div>
+                        <a href="#" id="popupLink">Show donations</a>
+                    </div>
+                    <div id="popupDiv" class="popupDiv">
+                        <div class="popupHeader">
+                            <h2 class="popupTitle">Latest Contributions</h2>
+                            <span class="closeButton" id="closeButton">X</span>
+                        </div>
+                        <div class="contribution-container">
+                            {% for contribution in campaign.contributions %}
+                            <p class="contributor-name">{{contribution.name}}</p>
+                            <p class="contribution-detail">{{currency_symbol}}{{contribution.amount}}<span class="contribution-postfix">{{contribution.date|time_since}}</span></p>
+                            {% endfor %}
+                        </div>
+                        <button type="submit" onclick="openDonation()" class="power-button stickyButton">Donate</button>
+                    </div>
+                    {%endif%}
+                </div>
+            </div>
+            <div class="campaign-words-of-support">
+                {%if campaign.contributions|contributions_with_messages%}
+                <p class="words of support">Latest words of support</p>
+                {%for contribution in campaign.contributions|contributions_with_messages%}
+                <div class="contribution-container">
+                    <p class="contributor-name">{{contribution.name}}</p>
+                    <p class="contribution-detail"><span>{{currency_symbol}}{{contribution.amount}}</span><span class="contribution-postfix">{{contribution.date|time_since}}</span></p>
+                    <p class="contribution-message">{{contribution.message}}</p>
+                </div>
+                {%endfor%}
+                {%endif%}
+            </div>
+
+        </div>
+
+
+    </div>
+    <script>
+        const closeButton = document.getElementById('closeButton');
+        const popupShare = document.getElementById('share-box');
+        const shareButton = document.getElementById('share-button');
+        const copyLinkButton = document.getElementById('copy-link-button')
+
+        function openDonation(){
+            window.open('{{url_for("donate", campaign_id=campaign.id)}}');
+        }
+
+        {% if campaign.contributions %}
+        const popupLink = document.getElementById('popupLink');
+        const popupDiv = document.getElementById('popupDiv');
+        popupLink.addEventListener('click', function(e) {
+            e.preventDefault(); // Prevent default link behavior
+            popupDiv.style.display = 'block';
+        });
+        closeButton.addEventListener('click', function() {
+            popupDiv.style.display = 'none';
+        });
+        {%endif%}
+
+        shareButton.addEventListener('click', function(e) {
+            e.preventDefault(); // Prevent default link behavior
+            popupShare.style.display = 'block';
+        });
+
+
+
+        copyLinkButton.addEventListener('click', function(){
+            const textField = document.getElementById('link-text');
+            textField.select();
+            document.execCommand('copy');
+            popupShare.style.display = 'none';
+
+        });
+        
+    </script>
+{% endblock %}

@@ -1,0 +1,15 @@
+Flask==2.*
+pydantic==1.*
+passlib==1.*
+Flask-WTF==1.*
+gunicorn==20.*
+redis==4.*
+Werkzeug==2.*
+WTForms==3.*
+arrow==1.*
+nltk==3.*
+celery==5.*
+Requests==2.*
+bleepy-profanity-check==0.*
+Pillow==9.*
+email-validator==2.0.0.post2

@@ -1,0 +1,137 @@
+{% extends "base_page.html" %}
+
+{% block content %}
+    <style>
+        img {
+            max-width: 150px;
+        }
+        .campaign-top{
+            display: flex;
+            flex-wrap: wrap;
+            margin: auto;
+            max-width: 600px;
+        }
+        .campaign-img{
+            order:1;
+        }
+        .campaign-details{
+            padding-left: 2em;
+            order:2;
+        }
+        .donation-container{
+            display: flex;
+            flex-wrap: wrap;
+            margin: auto;
+            max-width: 600px;
+        }
+        .donation-amount{
+            order:1;
+            width: 100%;
+        }
+        .amount{
+            width:90%;
+        }
+        .donation-how-it-works{
+            order: 2;
+            width: 100%;
+        }
+        .how-it-works{
+            font-size: smaller;
+            color: gray;
+        }
+
+
+        
+        @media only screen and (max-width: 1200px) {
+
+        }
+
+        @media only screen and (max-width: 768px) {
+            
+        }
+
+        @media only screen and (max-width: 576px) {
+
+        }
+
+        @media only screen and (max-width: 350px) {
+
+        }
+
+        
+
+    </style>
+
+    <div class="container">
+        <div class="campaign-top">
+            <div class="campaign-image">
+                <img src="{{url_for('get_campaign_image', campaign_id=campaign.id)}}"/>
+            </div>
+            <div class="campaign-details">
+                <p>
+                    <span>You are supporting </span>
+                    <span style="font-weight: bold;">{{campaign.title}}</span>
+                </p>
+                <p>This donation pledge benefits {{campaign.recipient}}</p>
+            </div>
+        </div>
+        <div class="donation-container">
+            <div style="width:100%;" class="donation-amount">
+                <form method="POST" action="#"  style="width:100%;">
+                    {{ form.csrf_token }}
+                    {{ form.hidden_tag() }}
+
+                    <p>{{form.amount.label}}</p>
+                    <p><span style="font-size:larger;">{{currency_symbol}}</span>{{form.amount(class="amount")}}</p>
+                    <hr/>
+                    <p>{{form.message.label}}</p>
+                    <p>{{form.message(style="width:92%;")}}</p>
+
+                    <p style="display: flex; align-items: flex-start;">
+                        {{form.anonymous(style="margin-top:-2px;")}}{{form.anonymous.label(style="margin-left:5px;")}}
+                    </p>
+                    <div id="donor-container">
+                        <p>{{form.donor.label}}</p>
+                        <p>{{form.donor(style="width:50%;")}}</p>
+                    </div>
+
+                    <p>{{form.submit(class="power-button")}}</p>
+
+                </form>
+            </div>
+            <div class="donation-how-it-works">
+                <h3 class="how-it-works">How it works</h3>
+                <span class="how-it-works">We try to be fully transparent to you and seek to reduce our costs,
+                    so we work on a pledge fulfillment system.
+                    This means that what you are making is a pledge. Usually, in a week, 
+                    we will send a statement to your email with a link for you to fulfill
+                    all of the unfulfilled pledges. We have found this is most convenient
+                    for those who donate while reducing the change to costs related to 
+                    pull-back donations. Once we receive your fulfilled pledge, we notify
+                    the receipient.
+                </span>
+            </div>
+
+        </div>
+    </div>
+    <script>
+        const anonymousCheckBox = document.getElementById("anonymous");
+        const donorContainer = document.getElementById('donor-container');
+
+        function checkAnonymous(){
+            if (anonymousCheckBox.checked){
+                donorContainer.style.display = "none";
+            }else{
+                donorContainer.style.display = "block";
+            }
+
+        }
+
+        anonymousCheckBox.addEventListener("click", function(){
+            checkAnonymous()
+        })
+
+        checkAnonymous()
+        
+    </script>
+{% endblock %}

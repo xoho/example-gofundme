@@ -1,0 +1,67 @@
+services:
+  app:
+    image: ghcr.io/falconry-universe/myfundquest:main
+    container_name: app
+    command: gunicorn app:app --bind "0.0.0.0:15000"
+      #command: flask --app app.py --debug run  -p 15000
+    ports:
+      - 15000:15000
+    env_file: .env
+    restart: always
+
+  worker:
+    image: ghcr.io/falconry-universe/myfundquest:main
+    container_name: worker
+    command: celery -A tasks worker --loglevel=INFO
+    env_file: .env
+    depends_on:
+      - redis
+    restart: always
+
+  redis:
+    image: redis
+    container_name: redis
+    restart: always
+
+  weed_master:
+    image: chrislusf/seaweedfs # use a remote image
+    command: "master -ip=weed_master -ip.bind=0.0.0.0 -metricsPort=9324"
+    restart: always
+    container_name: weed_master
+
+  weed_volume0:
+    image: chrislusf/seaweedfs # use a remote image
+    container_name: weed_volume0
+    command: 'volume -mserver="weed_master:9333" -ip.bind=0.0.0.0 -port=8080  -metricsPort=9325'
+    depends_on:
+      - weed_master
+    restart: always
+
+  weed_filer:
+    image: chrislusf/seaweedfs # use a remote image
+    container_name: weed_filer
+    ports:
+      - 8888:8888
+      - 18888:18888
+      - 9326:9326
+    command: 'filer -master="weed_master:9333" -ip.bind=0.0.0.0 -metricsPort=9326'
+    tty: true
+    stdin_open: true
+    depends_on:
+      - weed_master
+      - weed_volume0
+    restart: always
+
+  bert:
+    container_name: bert
+    ports:
+      - 7860:7860
+    image: ghcr.io/falconry-universe/sentiment:main
+    restart: always
+
+  nsfw:
+    image: notaitech/nudenet:classifier
+    container_name: nsfw
+    restart: always
+    ports:
+      - 8880:8080

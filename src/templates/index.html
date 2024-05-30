@@ -1,0 +1,237 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <style>
+        
+
+        .navigation {
+        position: sticky;
+        top: 0;
+        background-color: white;
+        width: 80%;
+        max-width: 1600px;
+        margin: 0 auto;
+        padding: 20px;
+        border-radius: 20px;
+        z-index: 1;
+        transition: width 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        }
+
+        .navigation.scrolled {
+        width: 100%;
+        border-radius: 0;
+        }
+        .logo-container {
+            order: 2;
+            margin-left: -20%;
+        }
+
+        .logo-container img {
+            max-height: 100%;
+            max-width: 100%;
+        }
+        .search-container {
+            order: 1;
+            width: 25%;
+        }
+
+        .search-container input[type="text"] {
+            height: 10px;
+            padding: 5px;
+            font-size: 16px;
+        }
+
+        .login-container {
+            order:3;
+            /* margin-left: -20%; */
+            padding-right: 2em;
+        }
+        .login-container a{
+            font-size: smaller;
+            padding-left:5px;
+        }
+
+        .cta-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        }
+        .cta-button {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: white;
+        color: forestgreen;
+        font-size: 16px;
+        border-radius: 20px;
+        border-width: 0.5px;
+        margin-left: 5px;
+        }
+        .focus-area {
+            margin-top: 5em;
+            background-color: white;
+            width: 100%;
+            padding: 10px;
+
+        }
+        .focus-area h4{
+            color: grey;
+        }
+
+        .latest-area {
+            margin-top: 5em;
+            background-color: white;
+            width: 100%;
+            padding: 10px;
+
+        }
+        .latest-area h4{
+            color: grey;
+        }
+
+        th {
+            padding: 1em;
+        }
+        td {
+            padding: 1em;
+            text-align: center;
+
+        }
+        .circle {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: forestgreen;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 36px;
+        margin: auto;
+        }
+
+        @media only screen and (max-width: 768px) {
+            .logo-container {
+                order:2;
+                padding-left: 20%;
+            }
+            .search-container{
+                order:1;
+                padding-left: 10%;
+            }
+   
+        }
+        @media only screen and (max-width: 576px) {
+            .logo-container {
+                order:1;
+                padding-left: 20%;
+
+            }           
+            .search-container{
+                order:2;
+                padding-left: 10%;
+            }
+            .login-container {
+                padding-right: 1em;
+
+            }
+        }
+        @media only screen and (max-width: 350px) {
+            .logo-container {
+                order:1;
+                padding-left: 15%;
+            }           
+            .search-container{
+                order:2;
+                padding-left: 10%;
+            }
+            .login-container {
+                padding-right: 1em;
+
+            }
+            .focus-area {
+                padding: 0;
+
+            }
+        }
+
+        
+    </style>
+    <div class="container">
+        <div class="background-image">
+        </div>
+        <div class="navigation">
+            <div class="search-container">
+                <button class="submit-button" style="height:1.5em; font-size: smaller;" onclick="openSearch()">Search</button>
+            </div>
+            <div class="logo-container">
+                <img src="{{url_for('show_asset_image', filename='text8292-150.png')}}"/>
+            </div>
+            <div class="login-container">
+                {% if session['user_first_name']%}
+                <span>{{session['user_first_name']}}</span><a href="{{url_for('logout')}}">logout</a>
+                {% else %}
+                <a href="{{url_for('login')}}">login</a><a href="{{url_for('signup')}}">join</a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="hero-title">
+            <span>Your progress</span>
+            <br/>
+            <span>towards help</span>
+        </div>
+        <div class="cta-container" >
+            <button class="cta-button"><a style="text-decoration: none; color: forestgreen" href="{{url_for('create')}}">Start your funding progress</a>  </button>
+            <button class="cta-button"><a style="text-decoration: none; color: forestgreen" href="{{url_for('latest')}}">See latest funding campaigns</a></button>
+
+        </div>
+        <div class="focus-area">
+            <h4>What to expect</h4>
+            <h2>Creating a progress fund takes only a few minutes</h2>
+            <table>
+                <thead>
+                    <th>Start with basics</th>
+                    <th>Tell your story</th>
+                    <th>Share with friends and family</th>
+                    <th>Track your progress</th>
+                </thead>
+                <tr>
+                    <td><div class="circle"><span>1</span></div></td>
+                    <td><div class="circle"><span>2</span></div></td>
+                    <td><div class="circle"><span>3</span></div></td>
+                    <td><div class="circle"><span>4</span></div></td>
+                </tr>
+                <tr>
+                    <td>Get started with your name and location</td>
+                    <td>We will guide you along the way</td>
+                    <td>Your community wants to help with your journey</td>
+                    <td>Your quest progress helps you and inspires others</td>
+                </tr>
+            </table>
+           
+        </div>
+
+
+        
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+        var navigation = document.querySelector('.navigation');
+
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 0) {
+            navigation.classList.add('scrolled');
+            } else {
+            navigation.classList.remove('scrolled');
+            }
+        });
+        });
+
+        function openSearch(){
+            window.open('{{url_for("search")}}');
+
+        }
+    </script>
+{% endblock %}

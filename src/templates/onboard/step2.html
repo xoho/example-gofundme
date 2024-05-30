@@ -1,0 +1,89 @@
+{% extends "onboard/base.html" %}
+{% block content %}
+    <div class="container">
+        <div class="step-container">
+            <div class="helper">
+                <div class="major">
+                    Select type of fundraiser
+                </div>
+                <div class="minor">
+                    For you, someone else or a charity
+                </div>
+
+            </div>
+            <div class="selectors">
+                <form method="POST" action="#">
+                    {{ form.csrf_token }}
+    
+                    <div class="selector">
+                        <div class="title">Who is this fundraiser for?</div>
+                         
+                        
+                        <div class="tag-selector">
+                            {% for value, label in form.campaign_type.choices %}
+                            <input type="radio" id="{{ value }}" name="campaign_type" value="{{ value }}">
+                            <label for="{{ value }}">{{ label }}</label>
+                            {% endfor %}
+                        </div>
+
+                        <div id="recipient-container" style="display: none;">
+                            <label id="label-recipient" for="recipient"></label>
+                            <input style="width:200px;" type="text" id="recipient" name="recipient" placeholder="enter name of recipient"/>
+                        </div>
+                        
+    
+                    </div>
+
+                    <button type="submit" id="continue-button" class="submit-button" style="display:none;">Continue</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        const radioButtons = document.querySelectorAll('input[type="radio"]');
+        const submitButton = document.getElementById('continue-button');
+        const recipientContainer = document.getElementById('recipient-container');
+        const recipient = document.getElementById('recipient');
+        const recipientLabel = document.getElementById('label-recipient');
+
+        function checkInput() {
+            if (recipient.value.trim() !== '') {
+                submitButton.style.display = 'block'; // Show the button
+            } else {
+                submitButton.style.display = 'none'; // Hide the button
+            }
+        }
+
+        recipient.addEventListener('input', checkInput);
+
+        radioButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            submitButton.style.display = 'block';
+            if (this.checked) {
+                radioButtons.forEach(otherButton => {
+                    if (otherButton !== this) {
+                    otherButton.checked = false;
+                    }
+                });
+                switch (this.id){
+                    case '1':
+                        recipientContainer.style.display ='block';
+                        recipientLabel.textContent = "Beneficiary";
+                        recipient.placeholder = "Enter name of recepient";
+                        checkInput();
+                        break;
+                    case '2':
+                        recipientContainer.style.display = 'block';
+                        recipientLabel.textContent = "Charity";
+                        recipient.placeholder = "Enter name of charity";
+                        checkInput();
+                        break;
+                    default:
+                        recipientContainer.style.display = 'none';
+                }
+            }
+        });
+        });
+
+    </script>
+{% endblock %}
