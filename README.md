@@ -11,6 +11,8 @@ This was used for a technology demonstration.
  * WeedFs (distributed object store like S3)
  * PyDantic for model validation
  * Celery for task management
+ * Docker
+ * Github actions to build the docker image
 
 
 ## Update algorithm
