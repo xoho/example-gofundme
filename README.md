@@ -5,7 +5,7 @@ to do, it automatically randomly adjusts funding for funding projects with rando
 
 This was used for a technology demonstration.
 
-** Tech used
+## Tech used
 
  * Flask
  * WeedFs (distributed object store like S3)
