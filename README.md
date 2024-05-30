@@ -1,5 +1,8 @@
 # Example Funding website
 
+![Landing page](example-gofundme.png)
+
+
 This is an example funding website like GoFundMe. Instead of actually receiving funds, which this can be modified
 to do, it automatically randomly adjusts funding for funding projects with random users.
 
